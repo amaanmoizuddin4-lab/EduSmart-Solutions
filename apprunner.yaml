@@ -1,0 +1,24 @@
+version: 1.0
+
+build:
+  commands:
+    pre-build:
+      - echo "Installing backend dependencies..."
+      - cd backend && npm ci
+      - echo "Installing frontend dependencies..."
+      - cd ../frontend && npm ci
+      - echo "Building frontend..."
+      - npm run build
+      - echo "Copying frontend build to backend public folder..."
+      - cd ../backend && mkdir -p public && cp -r ../frontend/dist/* public/
+    build:
+      - echo "Build complete"
+
+run:
+  runtime: nodejs20
+  command: cd backend && npm start
+  network:
+    port: 3000
+  env:
+    - name: NODE_ENV
+      value: production

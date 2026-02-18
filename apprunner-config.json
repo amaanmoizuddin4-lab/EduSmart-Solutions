@@ -1,0 +1,30 @@
+{
+  "ServiceName": "edusmart-tutoring",
+  "SourceConfiguration": {
+    "CodeRepository": {
+      "RepositoryUrl": "https://github.com/amaanmoizuddin4-lab/EduSmart-Solutions",
+      "SourceCodeVersion": {
+        "Type": "BRANCH",
+        "Value": "main"
+      },
+      "CodeConfiguration": {
+        "ConfigurationSource": "REPOSITORY"
+      }
+    },
+    "AutoDeploymentsEnabled": true
+  },
+  "InstanceConfiguration": {
+    "Cpu": "0.25",
+    "Memory": "512"
+  },
+  "Tags": [
+    {
+      "Key": "Environment",
+      "Value": "Production"
+    },
+    {
+      "Key": "Application",
+      "Value": "EduSmartTutoring"
+    }
+  ]
+}

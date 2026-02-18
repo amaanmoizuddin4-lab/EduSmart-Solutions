@@ -5,7 +5,9 @@ import connectDB from './config/database.js';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
+import { fileURLToPath } from 'url';
 import learningMaterialRoutes from './routes/learningMaterialRoutes.js';
+import path from 'path';
 import queryRoutes from './routes/queryRoutes.js';
 import studentRoutes from './routes/studentRoutes.js';
 
@@ -43,6 +45,22 @@ connectDB()
 app.use('/api/students', studentRoutes);
 app.use('/api/queries', queryRoutes);
 app.use('/api/learning-materials', learningMaterialRoutes);
+
+// Serve frontend static files from backend/public if present
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const publicPath = path.join(__dirname, '..', 'public');
+
+app.use(express.static(publicPath));
+
+// For any other route not starting with /api, serve index.html (SPA)
+app.get(/^((?!\/api).)*$/, (req, res, next) => {
+  const indexFile = path.join(publicPath, 'index.html');
+  if (req.method !== 'GET') return next();
+  res.sendFile(indexFile, (err) => {
+    if (err) next();
+  });
+});
 
 // Health check
 app.get('/api/health', (req, res) => {
